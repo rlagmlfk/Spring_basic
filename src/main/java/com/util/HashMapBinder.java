@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 import org.apache.log4j.Logger;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -22,6 +23,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 public class HashMapBinder {
 	Logger logger = Logger.getLogger(HashMapBinder.class);
 	HttpServletRequest req = null;
+	MultipartHttpServletRequest mreq = null;
 	// 첨부파일 처리에 필요한 변수 선언 - 바이너리 타입 처리를 위해
 	MultipartRequest multi = null;
 	// 첨부파일 업로드의 물리적인 경로 이름
@@ -33,6 +35,11 @@ public class HashMapBinder {
 	public HashMapBinder(HttpServletRequest req) {
 		this.req = req;
 		realFolder = "C:\\workspace_java\\dev_web\\src\\main\\webapp\\pds";
+	}
+	// 바이너리 타입을 받을 땐 post방식으로 처리할 것
+	// 단 기존 request.getParameter로 값을 못 읽어옴
+	public HashMapBinder(MultipartHttpServletRequest mreq) {
+		this.mreq = mreq;
 	}
 	public void multiBind(Map<String, Object> pMap) {
 		pMap.clear();
@@ -83,4 +90,16 @@ public class HashMapBinder {
 		}
 		logger.info(pMap);
 	} ///////////end of bind
+	// GET 방식 한글처리 - server.xml에서 URIEncoding="UTF-8"
+	// POST 방식 한글처리 - HangulConversion.toUTF(mreq.getParameter(key));
+	public void mbind(Map<String, Object> pMap) {
+		pMap.clear(); // 초기화를 해줌
+		Enumeration<String> em = mreq.getParameterNames();
+		while(em.hasMoreElements()) {
+			String key = em.nextElement();
+			pMap.put(key, HangulConversion.toUTF(mreq.getParameter(key)));
+		}
+		logger.info(pMap);
+		
+	}
 }

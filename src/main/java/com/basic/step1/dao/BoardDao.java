@@ -120,4 +120,18 @@ public class BoardDao {
 		return result;
 		
 	}
+
+	public int boardSInsert(Map<String, Object> pMap) {
+		int result = 0;
+		logger.info("boardSInsert 호출성공");
+		try {
+			// 현재는 첨부파일이 한개인 경우라서 상수처리함.
+			// TODO - 멀티처리를 위해서는 무엇을 해야할까
+			pMap.put("bs_seq", 1);
+			result = sqlSessionTemplate.update("boardSInsert",pMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }
