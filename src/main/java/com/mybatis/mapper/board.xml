@@ -35,7 +35,7 @@
 	<select id="getBNo" parameterType="map" resultType="int">
 			SELECT NVL((SELECT /*+index_desc(board_master_t BOARD_MASTER_NO_PK)*/b_no
             FROM BOARD_MASTER_T
-            WHERE rownum = 1),0)+1 b_no
+            WHERE rownum = 1),0)+1 b_group
   			FROM dual
 	</select>
 	<select id="getBGroup" parameterType="map" resultType="int">
