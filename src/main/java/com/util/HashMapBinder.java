@@ -34,7 +34,7 @@ public class HashMapBinder {
 	int maxSize = 5*1024*1024; // 5MB
 	public HashMapBinder(HttpServletRequest req) {
 		this.req = req;
-		realFolder = "C:\\workspace_java\\dev_web\\src\\main\\webapp\\pds";
+		realFolder = "C:\\workspace_spring\\basic\\src\\main\\webapp\\pds";
 	}
 	// 바이너리 타입을 받을 땐 post방식으로 처리할 것
 	// 단 기존 request.getParameter로 값을 못 읽어옴
